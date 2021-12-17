@@ -7,15 +7,17 @@ import (
 )
 
 type User struct {
-	ID         primitive.ObjectID `bson:"_id"`
-	FirstName  string             `bson:"first_name"`
-	LastName   string             `bson:"last_name"`
-	UserName   string             `bson:"user_name"`
-	CellNumber string             `bson:"cell_number"`
-	Bio        string             `bson:"bio"`
-	Avatar     string             `bson:"avatar"`
-	Acive      bool               `bson:"acive"`
-	Store      Store              `bson:"store"`
+	ID          primitive.ObjectID `bson:"_id"`
+	FirstName   string             `bson:"first_name"`
+	LastName    string             `bson:"last_name"`
+	UserName    string             `bson:"user_name"`
+	CellNumber  string             `bson:"cell_number"`
+	AreaCode    string             `bson:"area_code"`
+	Bio         string             `bson:"bio"`
+	Avatar      string             `bson:"avatar"`
+	Acive       bool               `bson:"acive"`
+	ContactList []Contact          `bson:"contact_list"`
+	Store       Store              `bson:"store"`
 
 	CreatedAt time.Time `bson:"created_at"`
 	UpdatedAt time.Time `bson:"updated_at"`
@@ -27,17 +29,16 @@ type Store struct {
 	Address     []string  `bson:"address"`
 	PhoneNumber []string  `bson:"phone_number"`
 	Products    []Product `bson:"products"`
-	ContactList []Contact `bson:"contact_list"`
 
 	CreatedAt time.Time `bson:"created_at"`
 	UpdatedAt time.Time `bson:"updated_at"`
 }
 type Product struct {
-	ID          string `bson:"_id"`
-	Name        string `bson:"name"`
-	Code        string `bson:"code"`
-	Price       int32  `bson:"price"`
-	Description string `bson:"description"`
+	ID          primitive.ObjectID `bson:"_id"`
+	Name        string             `bson:"name"`
+	Code        string             `bson:"code"`
+	Price       int32              `bson:"price"`
+	Description string             `bson:"description"`
 
 	CreatedAt time.Time `bson:"created_at"`
 	UpdatedAt time.Time `bson:"updated_at"`
@@ -55,12 +56,14 @@ type UserRepository interface {
 	GetById(filter interface{}, context context.Context) (*User, error)
 	GetByUsername(filter interface{}, context context.Context) (*User, error)
 }
+
 type ContactRepository interface {
 	Create(user *Contact, context context.Context) error
 	Update(user *Contact, context context.Context) error
 	GetById(filter interface{}, context context.Context) (*Contact, error)
 	GetByUsername(filter interface{}, context context.Context) error
 }
+
 type UserUsecase interface {
 	Create(user *User, context context.Context) error
 	Update(user *User, context context.Context) error
