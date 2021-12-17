@@ -45,9 +45,8 @@ type Product struct {
 }
 
 type Contact struct {
-	ID       string `bson:"_id"`
-	UserID   string `bson:"user_id"`
-	UserName string `bson:"user_name"`
+	UserID   primitive.ObjectID `bson:"_id"`
+	UserName string             `bson:"user_name"`
 }
 
 type UserRepository interface {
