@@ -20,16 +20,11 @@ func NewMongodbUserRepository(db *mongo.Collection) domain.UserRepository {
 }
 func (this *mongodbUserRepo) GetById(filter interface{}, context context.Context) (*domain.User, error) {
 	var user *domain.User
-	cur, err := this.Collection.Find(context, filter)
+	err := this.Collection.FindOne(context, filter).Decode(&user)
 	if err != nil {
 		return user, err
 	}
-	if err := cur.Err(); err != nil {
-		return user, err
-	}
-	cur.Close(context)
-
-	if len(user.ID) == 0 {
+	if user == nil {
 		return user, mongo.ErrNoDocuments
 	}
 
@@ -54,16 +49,11 @@ func (this *mongodbUserRepo) Update(user *domain.User, context context.Context) 
 
 func (this *mongodbUserRepo) GetByUsername(filter interface{}, context context.Context) (*domain.User, error) {
 	var user *domain.User
-	cur, err := this.Collection.Find(context, filter)
+	err := this.Collection.FindOne(context, filter).Decode(&user)
 	if err != nil {
 		return user, err
 	}
-	if err := cur.Err(); err != nil {
-		return user, err
-	}
-	cur.Close(context)
-
-	if len(user.ID) == 0 {
+	if user == nil {
 		return user, mongo.ErrNoDocuments
 	}
 

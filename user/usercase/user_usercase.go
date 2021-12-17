@@ -3,6 +3,7 @@ package usercase
 import (
 	"BazarMessenger/domain"
 	"context"
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -30,7 +31,14 @@ func (this *userUsecase) GetById(id string, context context.Context) (*domain.Us
 }
 
 func (this *userUsecase) GetByUsername(userName string, context context.Context) (*domain.User, error) {
-	panic("implement me")
+	filter := bson.D{primitive.E{Key: "user_name", Value: userName}}
+	user, err := this.userRepo.GetByUsername(filter, context)
+	fmt.Println("Error: ", err)
+
+	if err != nil {
+		return &domain.User{}, err
+	}
+	return user, nil
 }
 
 func NewUserUsecase(userrep domain.UserRepository) domain.UserUsecase {

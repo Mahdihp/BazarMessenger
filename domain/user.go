@@ -56,13 +56,6 @@ type UserRepository interface {
 	GetByUsername(filter interface{}, context context.Context) (*User, error)
 }
 
-type ContactRepository interface {
-	Create(user *Contact, context context.Context) error
-	Update(user *Contact, context context.Context) error
-	GetById(filter interface{}, context context.Context) (*Contact, error)
-	GetByUsername(filter interface{}, context context.Context) error
-}
-
 type UserUsecase interface {
 	Create(user *User, context context.Context) error
 	Update(user *User, context context.Context) error
