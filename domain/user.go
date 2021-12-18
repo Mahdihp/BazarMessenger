@@ -16,6 +16,7 @@ type User struct {
 	Bio         string             `bson:"bio"`
 	Avatar      string             `bson:"avatar"`
 	Acive       bool               `bson:"acive"`
+	IpMachine   string             `bson:"ip_machine"`
 	ContactList []Contact          `bson:"contact_list"`
 	Store       Store              `bson:"store"`
 
