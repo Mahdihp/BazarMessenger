@@ -24,7 +24,7 @@ func NewUserController(app *fiber.App, us domain.UserUsecase) {
 	api := app.Group("/api")
 	USER = api.Group("/user")
 
-	USER.Post("/signup", CreateUser)              // Sign Up a user
+	USER.Post("/signup", handler.CreateUser)      // Sign Up a user
 	USER.Post("/signin", LoginUser)               // Sign In a user
 	USER.Get("/get-access-token", GetAccessToken) // returns a new access_token
 	//USER.Get("/user/:username", handler.GetByUsername) // returns a new access_token
@@ -54,18 +54,15 @@ func (this *UserController) GetByUsername(c *fiber.Ctx) error {
 	}
 }
 
-func CreateUser(c *fiber.Ctx) error {
-	u := new(models.User)
-
+func (this *UserController) CreateUser(c *fiber.Ctx) error {
+	u := new(domain.UserForm)
 	if err := c.BodyParser(u); err != nil {
-		return c.JSON(fiber.Map{
-			"error": true,
-			"input": "Please review your input",
-		})
+		newUserDto := common.NewUserDto2(common.BaseDto{Message: utility.NOT_FOUND, StatusCode: 400})
+		return c.JSON(newUserDto)
 	}
 
 	// validate if the email, username and password are in correct format
-	errors := util.ValidateRegister(u)
+	errors := utility.ValidateRegister(u)
 	if errors.Err {
 		return c.JSON(errors)
 	}

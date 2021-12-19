@@ -15,9 +15,17 @@ type UserDto struct {
 	BaseDto
 	Data domain.User `json:"data"`
 }
+type UserErrors struct {
+	Err    bool   `json:"error"`
+	Email  string `json:"email"`
+	Mobile string `json:"mobile"`
+}
 
 func NewUserDto(baseDto BaseDto, user domain.User) *UserDto {
 	return &UserDto{BaseDto: baseDto, Data: user}
+}
+func NewUserDto2(baseDto BaseDto) *UserDto {
+	return &UserDto{BaseDto: baseDto}
 }
 
 func getStatusCode(err error) int {
